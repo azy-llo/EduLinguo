@@ -14,6 +14,13 @@ from sqlalchemy.exc import IntegrityError
 from models import Exercise, Lesson, Level, User, UserExerciseCompletion, UserLevelProgress, db
 from seed_curriculum import refresh_grammar_lessons, refresh_grammar_theory, seed_full_curriculum
 
+from flask_admin import Admin, AdminIndexView, expose
+from flask_admin.contrib.sqla import ModelView
+from flask_login import LoginManager, UserMixin, login_required, current_user, login_user, logout_user
+from flask import abort, redirect, url_for, request, session, flash
+from werkzeug.security import check_password_hash, generate_password_hash
+from functools import wraps
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-change-me-in-production")
 
@@ -27,6 +34,80 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
+from flask_login import LoginManager, login_required, current_user, login_user, logout_user
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'admin_login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.get(User, int(user_id))
+
+from flask_admin import AdminIndexView, expose
+from flask import redirect, url_for
+
+class AdminAuthView(AdminIndexView):
+    @expose('/')
+    def index(self):
+        if not current_user.is_authenticated or not getattr(current_user, 'is_admin', False):
+            return redirect(url_for('admin_login'))
+        return super().index()
+
+admin = Admin(app, name='Управление EduLinguo', template_mode='bootstrap4', index_view=AdminAuthView())
+
+class SecureModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and getattr(current_user, 'is_admin', False)
+    
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('admin_login'))
+
+# Пользователи
+class UserAdmin(SecureModelView):
+    column_list = ('id', 'username', 'email', 'xp', 'streak', 'is_admin', 'created_at')
+    column_searchable_list = ('username', 'email')
+    column_filters = ('is_admin', 'xp')
+    form_columns = ('username', 'email', 'xp', 'streak', 'is_admin')
+
+# Уровни
+class LevelAdmin(SecureModelView):
+    column_list = ('code', 'title', 'description', 'sort_order')
+    form_columns = ('code', 'title', 'description', 'sort_order')
+
+# Уроки
+class LessonAdmin(SecureModelView):
+    column_list = ('title', 'level', 'order_index', 'aspect', 'is_exam')
+    column_searchable_list = ('title', 'theory')
+    form_columns = ('level', 'order_index', 'aspect', 'title', 'theory', 'reading_passage', 'is_exam')
+
+# Упражнения
+class ExerciseAdmin(SecureModelView):
+    column_list = ('id', 'lesson', 'order_index', 'kind', 'prompt')
+    form_columns = ('lesson', 'order_index', 'kind', 'prompt', 'payload_json')
+
+admin.add_view(UserAdmin(User, db.session))
+admin.add_view(LevelAdmin(Level, db.session))
+admin.add_view(LessonAdmin(Lesson, db.session))
+admin.add_view(ExerciseAdmin(Exercise, db.session))
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = db.session.scalar(select(User).where(User.email == email))
+        if user and check_password_hash(user.password_hash, password) and user.is_admin:
+            login_user(user)
+            return redirect(url_for('admin.index'))
+        flash('Неверные данные или недостаточно прав')
+    return render_template('admin_login.html')
+
+@app.route('/admin/logout')
+@login_required
+def admin_logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 GUIDE_TOPICS = {
     "present-simple": {

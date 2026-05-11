@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в админку{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 400px; margin-top: 50px;">
+    <div class="card">
+        <div class="card-body">
+            <h2>Вход в админ-панель</h2>
+            
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-error">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="post">
+                <div style="margin-bottom: 15px;">
+                    <label>Email:</label>
+                    <input type="email" name="email" required style="width: 100%; padding: 8px; margin-top: 5px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>Пароль:</label>
+                    <input type="password" name="password" required style="width: 100%; padding: 8px; margin-top: 5px;">
+                </div>
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

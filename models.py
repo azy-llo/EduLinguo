@@ -18,6 +18,7 @@ class User(db.Model):
     xp: Mapped[int] = mapped_column(Integer, default=0)
     streak: Mapped[int] = mapped_column(Integer, default=0)
     created_at: Mapped[object] = mapped_column(DateTime(timezone=True))
+    is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
 
 
 class Level(db.Model):
