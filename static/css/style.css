@@ -1438,3 +1438,103 @@ a:hover {
     grid-template-columns: 1fr;
   }
 }
+
+.duo-section {
+  margin-top: 80px;
+}
+
+.duo-feature {
+  padding: 0.8rem 0.8rem;
+}
+
+.duo-feature p {
+  font-size: 0.85rem;
+}
+
+.duo-feature h3 {
+  font-size: 1rem;
+  margin: 0.2rem 0;
+}
+
+.feature-ico {
+  font-size: 1.8rem;
+}
+
+/* --- Мобильное меню (гамбургер) --- */
+.mobile-menu-btn {
+  display: none; /* по умолчанию скрыта на десктопе */
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--duo-green);
+  padding: 0.5rem;
+  line-height: 1;
+}
+
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* На мобильных устройствах (до 768px) показываем кнопку */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  /* Боковая панель по умолчанию скрыта за левым краем */
+  .app-sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    border-radius: 0;
+    padding-top: 4rem;
+  }
+  
+  /* Когда открыта – показываем */
+  .app-sidebar.open {
+    left: 0;
+  }
+  
+  /* Затемняем основной контент, когда меню открыто */
+  body.menu-open .mobile-overlay {
+    display: block;
+  }
+  
+  /* Контентная область больше не нуждается в margin-left */
+  .app-main {
+    margin-left: 0;
+  }
+  
+  /* Для страниц с layout-with-sidebar (уроки, уровни) также адаптируем */
+  .layout-with-sidebar {
+    grid-template-columns: 1fr;
+  }
+  
+  .duo-sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    border-radius: 0;
+    padding-top: 4rem;
+  }
+  
+  .duo-sidebar.open {
+    left: 0;
+  }
+}

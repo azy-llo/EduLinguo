@@ -46,5 +46,29 @@
         requestAnimationFrame(frame);
       }
     }
+    // Мобильное меню
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const overlay = document.getElementById('mobileOverlay');
+    const sidebar = document.querySelector('.app-sidebar');
+    const duoSidebar = document.querySelector('.duo-sidebar');
+
+    function toggleMenu() {
+      if (sidebar) sidebar.classList.toggle('open');
+      if (duoSidebar) duoSidebar.classList.toggle('open');
+      document.body.classList.toggle('menu-open');
+    }
+
+    function closeMenu() {
+      if (sidebar) sidebar.classList.remove('open');
+      if (duoSidebar) duoSidebar.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    }
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', toggleMenu);
+    }
+    if (overlay) {
+      overlay.addEventListener('click', closeMenu);
+    }
   });
 })();
