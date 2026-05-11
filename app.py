@@ -174,35 +174,34 @@ def lesson_completed(user: User | None, lesson_id: int) -> bool:
 
 
 def can_access_lesson(user: User | None, lesson: Lesson) -> bool:
-    return True
-    # level_obj = db.session.get(Level, lesson.level_id)
-    # if not level_obj:
-    #     return False
-    # if not level_unlocked_for(user, level_obj):
-    #     return False
-    # if lesson.is_exam:
-    #     need = 50
-    #     done_regular = 0
-    #     for o in range(1, 51):
-    #         les = db.session.scalar(
-    #             select(Lesson).where(Lesson.level_id == lesson.level_id, Lesson.order_index == o)
-    #         )
-    #         if les and lesson_completed(user, les.id):
-    #             done_regular += 1
-    #     if done_regular < need:
-    #         return False
-    #     return True
-    # if lesson.order_index <= 1:
-    #     return True
-    # prev = db.session.scalar(
-    #     select(Lesson).where(
-    #         Lesson.level_id == lesson.level_id,
-    #         Lesson.order_index == lesson.order_index - 1,
-    #     )
-    # )
-    # if not prev:
-    #     return True
-    # return lesson_completed(user, prev.id)
+    level_obj = db.session.get(Level, lesson.level_id)
+    if not level_obj:
+        return False
+    if not level_unlocked_for(user, level_obj):
+        return False
+    if lesson.is_exam:
+        need = 50
+        done_regular = 0
+        for o in range(1, 51):
+            les = db.session.scalar(
+                select(Lesson).where(Lesson.level_id == lesson.level_id, Lesson.order_index == o)
+            )
+            if les and lesson_completed(user, les.id):
+                done_regular += 1
+        if done_regular < need:
+            return False
+        return True
+    if lesson.order_index <= 1:
+        return True
+    prev = db.session.scalar(
+        select(Lesson).where(
+            Lesson.level_id == lesson.level_id,
+            Lesson.order_index == lesson.order_index - 1,
+        )
+    )
+    if not prev:
+        return True
+    return lesson_completed(user, prev.id)
 
 
 def maybe_award_level_exam(user_id: int, lesson: Lesson) -> None:
