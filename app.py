@@ -769,21 +769,14 @@ with app.app_context():
 
 @app.route('/setup_admin')
 def setup_admin():
-    from sqlalchemy import text
-    # 1. Добавляем колонку is_admin, если её нет
-    try:
-        db.session.execute(text('ALTER TABLE users ADD COLUMN is_admin BOOLEAN DEFAULT FALSE;'))
-        db.session.commit()
-    except Exception as e:
-        if 'duplicate column' not in str(e).lower():
-            return f"Ошибка при добавлении колонки: {e}"
-    # 2. Назначаем текущего пользователя админом
     user = current_user()
     if not user:
         return "Вы не залогинены. <a href='/login'>Войдите</a> сначала."
+    
+    # Просто назначаем пользователя администратором (колонка уже есть)
     user.is_admin = True
     db.session.commit()
-    return f"✅ {user.email} теперь администратор! Теперь удалите этот маршрут из app.py и перезалейте код."
+    return f"✅ {user.email} теперь администратор! Теперь удалите этот маршрут из app.py"
 
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port=5000)
