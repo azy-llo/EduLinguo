@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Профиль — EduLinguo{% endblock %}
+{% block content %}
+<div class="container page-header duo-page-head">
+  <h1>Профиль</h1>
+  <p class="muted">Управление данными аккаунта.</p>
+</div>
+<div class="container">
+  <div class="card profile-card">
+    <form method="post" class="form" action="{{ url_for('profile') }}">
+      <label>
+        Имя пользователя
+        <input type="text" name="username" required minlength="2" value="{{ user.username }}">
+      </label>
+      <label>
+        Почта
+        <input type="email" name="email" required value="{{ user.email }}">
+      </label>
+      <label>
+        Новый пароль (необязательно)
+        <input type="password" name="password" minlength="6" placeholder="Оставьте пустым, чтобы не менять">
+      </label>
+      <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

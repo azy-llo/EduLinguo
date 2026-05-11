@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Рейтинг — EduLinguo{% endblock %}
+{% block content %}
+<div class="container page-header duo-page-head">
+  <h1>Рейтинг пользователей</h1>
+  <p class="muted">Таблица строится по количеству опыта (XP).</p>
+</div>
+<div class="container">
+  <div class="podium">
+    <div class="podium-item p2">
+      <span class="podium-place">2</span>
+      <strong>{{ top3[1].username if top3|length > 1 else "—" }}</strong>
+      <small>{{ top3[1].xp if top3|length > 1 else 0 }} XP</small>
+    </div>
+    <div class="podium-item p1">
+      <span class="podium-place">1</span>
+      <strong>{{ top3[0].username if top3|length > 0 else "—" }}</strong>
+      <small>{{ top3[0].xp if top3|length > 0 else 0 }} XP</small>
+    </div>
+    <div class="podium-item p3">
+      <span class="podium-place">3</span>
+      <strong>{{ top3[2].username if top3|length > 2 else "—" }}</strong>
+      <small>{{ top3[2].xp if top3|length > 2 else 0 }} XP</small>
+    </div>
+  </div>
+
+  <div class="card leaderboard-list">
+    {% for u in rest %}
+      <div class="leader-row">
+        <span>#{{ loop.index + 3 }}</span>
+        <strong>{{ u.username }}</strong>
+        <em>{{ u.xp }} XP</em>
+      </div>
+    {% else %}
+      <p class="muted">Пока нет участников ниже топ-3.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

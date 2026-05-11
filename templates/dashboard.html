@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Прогресс{% endblock %}
+{% block content %}
+<div class="container page-header duo-page-head">
+  <h1>Привет, {{ user.username }}!</h1>
+  <p class="muted">Твои результаты сохраняются в профиле.</p>
+</div>
+<div class="container">
+  <div class="grid-2">
+    <div class="card stat-card duo-stat">
+      <h2>Опыт</h2>
+      <p class="stat-big" data-counter="{{ user.xp }}">{{ user.xp }}</p>
+      <p class="muted small">+10 XP за каждое новое выполненное задание.</p>
+    </div>
+    <div class="card stat-card duo-stat">
+      <h2>Заданий выполнено</h2>
+      <p class="stat-big">{{ exercises_done }}</p>
+      <p class="muted small">Серия дней можно добавить позже — следи за регулярностью.</p>
+    </div>
+  </div>
+  <div class="card actions-card duo-actions">
+    <h2>К обучению</h2>
+    <a class="btn btn-primary" href="{{ url_for('learn') }}">К уровням</a>
+  </div>
+</div>
+{% endblock %}

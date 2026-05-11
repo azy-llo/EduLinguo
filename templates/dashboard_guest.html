@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Прогресс (без профиля){% endblock %}
+{% block content %}
+<div class="container page-header duo-page-head">
+  <h1>Твой прогресс</h1>
+  <p class="muted guest-hint">
+    Без профиля баллы и задания хранятся только в этом окне браузера и <strong>исчезают после закрытия вкладки</strong>.
+    <a href="{{ url_for('register') }}">Создайте профиль</a>, чтобы сохранять прогресс между визитами.
+  </p>
+</div>
+<div class="container">
+  <div class="grid-2">
+    <div class="card stat-card duo-stat">
+      <h2>Опыт (в этой вкладке)</h2>
+      <p class="stat-big" id="guest-xp">0</p>
+      <p class="muted small">Обновляется после заданий на странице урока.</p>
+    </div>
+    <div class="card stat-card duo-stat">
+      <h2>Заданий в сессии</h2>
+      <p class="stat-big" id="guest-done">0</p>
+      <p class="muted small">Считаются только завершённые задания в текущей сессии.</p>
+    </div>
+  </div>
+  <div class="card actions-card duo-actions">
+    <h2>Начать</h2>
+    <a class="btn btn-primary" href="{{ url_for('learn') }}">Выбрать уровень</a>
+    <a class="btn btn-secondary" href="{{ url_for('register') }}">Сохранять прогресс</a>
+  </div>
+</div>
+{% endblock %}

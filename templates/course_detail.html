@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ course.title }}{% endblock %}
+{% block content %}
+<div class="container page-header duo-page-head">
+  <p class="eyebrow">{{ course.level }}</p>
+  <h1>{{ course.title }}</h1>
+  <p class="lead">{{ course.description }}</p>
+  <p><a href="{{ url_for('courses') }}" class="back-link">← Все курсы</a></p>
+</div>
+<div class="container">
+  <h2 class="section-title">Уроки</h2>
+  <ol class="lesson-list">
+    {% for item in lesson_meta %}
+      <li class="card lesson-item duo-lesson">
+        <div class="lesson-head">
+          <h3>{{ item.lesson.title }}</h3>
+          <span class="lesson-meta">{{ item.exercise_count }} заданий</span>
+        </div>
+        <p>{{ item.lesson.theory }}</p>
+        {% if item.exercise_count > 0 %}
+          <a class="btn btn-primary btn-sm" href="{{ url_for('lesson_view', lesson_id=item.lesson.id) }}">Начать урок</a>
+        {% else %}
+          <span class="muted small">Задания скоро добавят.</span>
+        {% endif %}
+      </li>
+    {% else %}
+      <li><p class="muted">Уроки пока не готовы.</p></li>
+    {% endfor %}
+  </ol>
+</div>
+{% endblock %}

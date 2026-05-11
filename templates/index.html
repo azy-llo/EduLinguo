@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}EduLinguo — учите английский{% endblock %}
+{% block content %}
+<section class="hero duo-hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <p class="eyebrow">Структурированный путь A1 → C1</p>
+      <h1>Учите английский по уровням — как на курсах, только в своём темпе</h1>
+      <p class="lead">
+        Грамматика, словарь, чтение, письмо и аудирование чередуются в фиксированном порядке.
+        Пятьдесят уроков и итоговый экзамен на каждом уровне — затем открывается следующий.
+      </p>
+      <div class="hero-actions">
+        {% if current_user %}
+          <a class="btn btn-primary btn-lg" href="{{ url_for('learn') }}">Список уровней</a>
+          <a class="btn btn-secondary btn-lg" href="{{ continue_lesson_url }}">Продолжить обучение</a>
+        {% else %}
+          <a class="btn btn-primary btn-lg" href="{{ first_lesson_url }}">Пройти урок</a>
+          <a class="btn btn-secondary btn-lg" href="{{ url_for('login') }}">Вход/Регистрация</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-art">
+        <div class="art-ring art-ring-1"></div>
+        <div class="art-ring art-ring-2"></div>
+        <div class="art-ring art-ring-3"></div>
+        <div class="art-center">
+          <span class="art-icon">★</span>
+          <span class="art-label">A1 → C1</span>
+        </div>
+        <div class="art-float art-float-a">abc</div>
+        <div class="art-float art-float-b">✓</div>
+        <div class="art-float art-float-c">♪</div>
+      </div>
+      <p class="mascot-caption">Короткие сессии — стабильный прогресс</p>
+    </div>
+  </div>
+</section>
+
+<section class="section duo-section">
+  <div class="container">
+    <h2 class="section-title">Как устроено обучение</h2>
+    <div class="grid-3">
+      <article class="feature duo-feature">
+        <div class="feature-ico">🧩</div>
+        <h3>Пять навыков</h3>
+        <p>Каждый цикл из пяти уроков тренирует грамматику, лексику, чтение, письмо и аудирование по очереди.</p>
+      </article>
+      <article class="feature duo-feature">
+        <div class="feature-ico">🔐</div>
+        <h3>Честный порядок</h3>
+        <p>Следующий урок открывается после предыдущего. Новый уровень — после итогового экзамена.</p>
+      </article>
+      <article class="feature duo-feature">
+        <div class="feature-ico">📈</div>
+        <h3>Профиль</h3>
+        <p>С аккаунтом прогресс и экзамены сохраняются. Без аккаунта порядок уроков ведётся в сессии браузера.</p>
+      </article>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Справочник — EduLinguo{% endblock %}
+{% block content %}
+<div class="container page-header duo-page-head">
+  <h1>Справочник грамматики</h1>
+  <p class="muted">Теория по основным темам английского языка. Открывайте тему и отрабатывайте в уроках.</p>
+</div>
+<div class="container">
+  <div class="guide-grid">
+    {% for slug, name, level in topics %}
+      <a class="card guide-item guide-link" href="{{ url_for('guide_topic', slug=slug) }}">
+        <h3>{{ name }}</h3>
+        <p class="muted">Уровень: {{ level }}</p>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

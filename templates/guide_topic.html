@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ topic.title }} — EduLinguo{% endblock %}
+{% block content %}
+<div class="container page-header duo-page-head">
+  <p class="eyebrow">Справочник · {{ topic.level }}</p>
+  <h1>{{ topic.title }}</h1>
+  <p><a href="{{ url_for('guide') }}" class="back-link">← Все темы справочника</a></p>
+</div>
+<div class="container">
+  <article class="card guide-topic-card">
+    <ol class="guide-topic-list">
+      {% for line in topic.body %}
+        <li>{{ line }}</li>
+      {% endfor %}
+    </ol>
+  </article>
+</div>
+{% endblock %}

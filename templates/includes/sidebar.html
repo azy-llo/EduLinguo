@@ -1,0 +1,39 @@
+<aside class="duo-sidebar" aria-label="Навигация по курсам">
+  <div class="sidebar-block">
+    <p class="sidebar-title">Уровни CEFR</p>
+    {% for s in sidebar_levels %}
+      {% if s.unlocked %}
+        <a href="{{ url_for('level_view', level_id=s.lv.id) }}" class="sidebar-level {% if s.active %}is-active{% endif %}">
+          <span class="sl-code">{{ s.lv.code }}</span>
+          <span class="sl-name">{{ s.lv.title }}</span>
+        </a>
+      {% else %}
+        <span class="sidebar-level is-locked" title="Сдайте экзамен предыдущего уровня">
+          <span class="sl-code">{{ s.lv.code }}</span>
+          <span class="sl-lock">🔒</span>
+        </span>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% if lesson_rows is defined %}
+  <div class="sidebar-block sidebar-scroll">
+    <p class="sidebar-title">Уроки уровня</p>
+    {% for row in lesson_rows %}
+      {% if row.accessible %}
+        <a
+          href="{{ url_for('lesson_view', lesson_id=row.lesson.id) }}"
+          class="sidebar-lesson {% if lesson is defined and row.lesson.id == lesson.id %}is-active{% endif %} {% if row.done %}is-done{% endif %}"
+        >
+          <span class="sl-num">{{ row.lesson.order_index }}</span>
+          <span class="sl-t">{{ row.lesson.title }}</span>
+        </a>
+      {% else %}
+        <span class="sidebar-lesson is-locked">
+          <span class="sl-num">{{ row.lesson.order_index }}</span>
+          <span class="sl-t">Недоступно 🔒</span>
+        </span>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+</aside>

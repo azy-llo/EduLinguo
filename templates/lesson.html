@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ lesson.title }}{% endblock %}
+{% block content %}
+<div class="layout-with-sidebar">
+  {% include "includes/sidebar.html" %}
+  <div class="layout-main lesson-layout">
+    <div class="lesson-top">
+      <p class="eyebrow">
+        <a href="{{ url_for('level_view', level_id=level.id) }}">{{ level.code }} · {{ level.title }}</a>
+      </p>
+      <h1>{{ lesson.title }}</h1>
+      {% if lesson.theory %}
+        <div class="lesson-theory-block">{{ lesson.theory | safe }}</div>
+      {% endif %}
+      {% if lesson.reading_passage %}
+        <div class="reading-box">{{ lesson.reading_passage | safe }}</div>
+      {% endif %}
+    </div>
+
+    <div class="lesson-progress-wrap" aria-hidden="true">
+      <div class="lesson-progress-bar" id="lessonProgressBar"></div>
+    </div>
+    <div
+      id="lesson-root"
+      class="lesson-root"
+      data-logged-in="{{ 'true' if logged_in else 'false' }}"
+      data-lesson-id="{{ lesson.id }}"
+      data-level-id="{{ level.id }}"
+      data-is-exam="{{ 'true' if lesson.is_exam else 'false' }}"
+    ></div>
+    <p class="lesson-footnote muted small" id="lessonGuestNote" {% if logged_in %}hidden{% endif %}>
+      Без профиля прогресс по заданиям хранится в этой вкладке; порядок уроков фиксируется для доступа к следующим шагам.
+    </p>
+  </div>
+</div>
+
+<script type="application/json" id="lesson-exercises-data">{{ exercises_json | safe }}</script>
+<script type="application/json" id="lesson-completed-data">{{ completed_ids_json | safe }}</script>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/lesson.js') }}" defer></script>
+{% endblock %}

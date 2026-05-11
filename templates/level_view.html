@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ level.code }} — EduLinguo{% endblock %}
+{% block content %}
+<div class="layout-with-sidebar">
+  {% include "includes/sidebar.html" %}
+  <div class="layout-main">
+    <div class="page-header duo-page-head">
+      <p class="eyebrow">Уровень {{ level.code }}</p>
+      <h1>{{ level.title }}</h1>
+      <p class="lead">{{ level.description }}</p>
+      <p><a href="{{ url_for('learn') }}" class="back-link">← Все уровни</a></p>
+    </div>
+    <p class="muted path-hint">
+      Уроки идут по порядку: Grammar → Vocabulary → Reading → Writing → Listening, затем цикл повторяется.
+      Экзамен — после 50-го урока.
+    </p>
+    <ol class="lesson-path">
+      {% for row in lesson_rows %}
+        <li class="path-item {% if not row.accessible %}is-locked{% endif %} {% if row.done %}is-done{% endif %}">
+          {% if row.accessible %}
+            <a href="{{ url_for('lesson_view', lesson_id=row.lesson.id) }}" class="path-link">
+              <span class="path-num">{{ row.lesson.order_index }}</span>
+              <span class="path-body">
+                <span class="path-title">{{ row.lesson.title }}</span>
+                {% set aspects = {'grammar':'Грамматика','vocabulary':'Словарь','reading':'Чтение','writing':'Письмо','listening':'Аудирование','exam':'Экзамен'} %}
+                <span class="path-aspect">{{ aspects.get(row.lesson.aspect, row.lesson.aspect) }}{% if row.lesson.is_exam %} · итог{% endif %} · {{ row.exercise_count }} зад.</span>
+              </span>
+              {% if row.done %}<span class="path-check">✓</span>{% endif %}
+            </a>
+          {% else %}
+            <span class="path-link is-disabled">
+              <span class="path-num">{{ row.lesson.order_index }}</span>
+              <span class="path-body">
+                <span class="path-title">{{ row.lesson.title }}</span>
+                <span class="path-aspect muted">Сначала завершите предыдущий урок</span>
+              </span>
+            </span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+</div>
+{% endblock %}

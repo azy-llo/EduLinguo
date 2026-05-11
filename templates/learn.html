@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Уровни — EduLinguo{% endblock %}
+{% block content %}
+<div class="layout-with-sidebar layout-learn">
+  {% include "includes/sidebar.html" %}
+  <div class="layout-main">
+    <div class="page-header duo-page-head">
+      <h1>Выберите уровень</h1>
+      <p class="muted">Пять уровней от A1 до C1. Следующий уровень открывается после итогового экзамена.</p>
+    </div>
+    <div class="level-grid">
+      {% for it in level_items %}
+        <article class="card duo-course level-card {% if not it.unlocked %}is-locked-card{% endif %}">
+          <span class="badge">{{ it.level.code }}</span>
+          <h2>{{ it.level.title }}</h2>
+          <p>{{ it.level.description }}</p>
+          <p class="level-meta muted small">
+            50 уроков + экзамен · Grammar, Vocabulary, Reading, Writing, Listening
+          </p>
+          {% if it.unlocked %}
+            <a class="btn btn-primary" href="{{ url_for('level_view', level_id=it.level.id) }}">Открыть</a>
+            {% if it.exam_passed %}
+              <span class="pass-badge">Экзамен сдан ✓</span>
+            {% endif %}
+          {% else %}
+            <span class="btn btn-ghost disabled-like">Закрыто · пройдите предыдущий уровень</span>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

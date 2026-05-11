@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <a href="{{ url_for('skip_auth') }}" class="auth-skip" title="Закрыть" aria-label="Закрыть и перейти к курсам">×</a>
+  <div class="container auth-wrap">
+    <div class="card auth-card duo-card">
+      <h1>Создать профиль</h1>
+      <p class="muted">Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a></p>
+      <form method="post" class="form" action="{{ url_for('register') }}">
+        <label>
+          Имя
+          <input type="text" name="username" required autocomplete="username" minlength="2" placeholder="Как к вам обращаться">
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" required autocomplete="email" placeholder="you@example.com">
+        </label>
+        <label>
+          Пароль (не короче 6 символов)
+          <input type="password" name="password" required autocomplete="new-password" minlength="6">
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">Создать профиль</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Курсы{% endblock %}
+{% block content %}
+<div class="container page-header duo-page-head">
+  <h1>Курсы</h1>
+  <p class="muted">Выберите тему и откройте уроки с заданиями.</p>
+</div>
+<div class="container">
+  <div class="course-grid">
+    {% for c in courses %}
+      <article class="card course-card duo-course">
+        <span class="badge">{{ c.level }}</span>
+        <h2>{{ c.title }}</h2>
+        <p>{{ c.description }}</p>
+        <a class="btn btn-primary" href="{{ url_for('course_detail', course_id=c.id) }}">Учить</a>
+      </article>
+    {% else %}
+      <p>Курсы скоро появятся.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
