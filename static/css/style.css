@@ -1500,6 +1500,7 @@ a:hover {
     transition: left 0.3s ease;
     border-radius: 0;
     padding-top: 4rem;
+    display: block;
   }
   
   /* Когда открыта – показываем */
@@ -1532,6 +1533,7 @@ a:hover {
     transition: left 0.3s ease;
     border-radius: 0;
     padding-top: 4rem;
+    display: block;          
   }
   
   .duo-sidebar.open {
