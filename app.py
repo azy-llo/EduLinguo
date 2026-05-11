@@ -54,7 +54,7 @@ class AdminAuthView(AdminIndexView):
             return redirect(url_for('admin_login'))
         return super().index()
 
-admin = Admin(app, name='Управление EduLinguo', template_mode='bootstrap4', index_view=AdminAuthView())
+admin = Admin(app, name='Управление EduLinguo', index_view=AdminAuthView())
 
 class SecureModelView(ModelView):
     def is_accessible(self):
