@@ -684,13 +684,13 @@ with app.app_context():
     refresh_grammar_theory()
     refresh_grammar_lessons()
 
-@app.route('/fix_is_admin')
-def fix_is_admin():
+@app.route('/drop_is_admin')
+def drop_is_admin():
     from sqlalchemy import text
     try:
-        db.session.execute(text('ALTER TABLE users ALTER COLUMN is_admin SET DEFAULT FALSE;'))
+        db.session.execute(text('ALTER TABLE users DROP COLUMN is_admin;'))
         db.session.commit()
-        return "DEFAULT добавлен"
+        return "Колонка is_admin удалена. Теперь регистрация работает."
     except Exception as e:
         return f"Ошибка: {e}"
 
