@@ -684,15 +684,15 @@ with app.app_context():
     refresh_grammar_theory()
     refresh_grammar_lessons()
 
-@app.route('/drop_admin_column')
-def drop_admin_column():
+@app.route('/fix_is_admin')
+def fix_is_admin():
     from sqlalchemy import text
     try:
-        db.session.execute(text('ALTER TABLE users DROP COLUMN IF EXISTS is_admin;'))
+        db.session.execute(text('ALTER TABLE users ALTER COLUMN is_admin SET DEFAULT FALSE;'))
         db.session.commit()
-        return "✅ Колонка is_admin удалена из таблицы users"
+        return "DEFAULT добавлен"
     except Exception as e:
-        return f"❌ Ошибка: {e}"
+        return f"Ошибка: {e}"
 
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port=5000)
