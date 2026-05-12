@@ -684,15 +684,6 @@ with app.app_context():
     refresh_grammar_theory()
     refresh_grammar_lessons()
 
-@app.route('/drop_is_admin')
-def drop_is_admin():
-    from sqlalchemy import text
-    try:
-        db.session.execute(text('ALTER TABLE users DROP COLUMN is_admin;'))
-        db.session.commit()
-        return "Колонка is_admin удалена. Теперь регистрация работает."
-    except Exception as e:
-        return f"Ошибка: {e}"
 
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port=5000)
